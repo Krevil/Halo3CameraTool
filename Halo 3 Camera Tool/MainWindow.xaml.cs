@@ -95,11 +95,13 @@ namespace Halo_3_Camera_Tool
                     if (result == 0x74)
                     {
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90");
+                        ThirdPersonButton.Foreground = Brushes.Red;
                         ThirdPerson = true;
                     }
                     else if (result == 0x90)
                     {
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
+                        ThirdPersonButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                         ThirdPerson = false;
                     }
                 }
