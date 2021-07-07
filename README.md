@@ -1,4 +1,4 @@
-# Halo3CameraTool
+# Halo 3 Camera Tool
 
 Camera Manipulation Tool for Halo 3
 
