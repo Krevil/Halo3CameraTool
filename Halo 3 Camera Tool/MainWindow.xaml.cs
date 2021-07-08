@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Threading;
 using Memory;
@@ -25,25 +16,41 @@ namespace Halo_3_Camera_Tool
     {
         public Mem m = new Mem();
         private readonly BackgroundWorker BGWorker = new BackgroundWorker();
-        public bool ThirdPerson = false;
-        public bool Freecam = false;
-        public bool CameraFrozen = false;
-        public bool PlayerFrozen = false;
-        public bool BarriersDisabled = false;
-        public bool Coordinates = false;
-        public bool GamePaused = false;
-        public bool ThirtyTick = false;
+        public bool bThirdPerson = false;
+        public bool bFreecam = false;
+        public bool bCameraFrozen = false;
+        public bool bPlayerFrozen = false;
+        public bool bBarriersDisabled = false;
+        public bool bCoordinates = false;
+        public bool bGamePaused = false;
+        public bool bThirtyTick = false;
         public bool ProcOpen = false;
         public static bool AboutShown = false;
+        private object hookProc;
 
         public MainWindow()
         {
             InitializeComponent();
+
             BGWorker.DoWork += BGWorker_DoWork;
             BGWorker.RunWorkerCompleted += BGWorker_RunWorkerCompleted;
             BGWorker.ProgressChanged += new ProgressChangedEventHandler(BGWorker_ProgressChanged);
             BGWorker.WorkerSupportsCancellation = true;
             BGWorker.WorkerReportsProgress = true;
+
+            FreecamBinding.Text = Properties.Settings.Default.FreecamKey;
+            FreezePlayerBinding.Text = Properties.Settings.Default.FreezePlayerKey;
+            FreezeCameraBinding.Text = Properties.Settings.Default.FreezeCameraKey;
+            PauseGameBinding.Text = Properties.Settings.Default.PauseGameKey;
+            CoordinatesBinding.Text = Properties.Settings.Default.CoordinatesKey;
+            DisableBarriersBinding.Text = Properties.Settings.Default.DisableBarriersKey;
+            AcrophobiaBinding.Text = Properties.Settings.Default.AcrophobiaKey;
+            BandanaBinding.Text = Properties.Settings.Default.BandanaKey;
+            ThirdPersonBinding.Text = Properties.Settings.Default.ThirdPersonKey;
+            ThirtyTickBinding.Text = Properties.Settings.Default.ThirtyTickKey;
+
+            Controller controller = new Controller();
+            controller.SetupKeyboardHooks(out hookProc);
         }
 
         private void BGWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -55,6 +62,7 @@ namespace Halo_3_Camera_Tool
                 Thread.Sleep(1000);
                 return;
             }
+            if (!m.modules.ContainsKey("halo3.dll")) m.GetModules();
             Thread.Sleep(1000);
             BGWorker.ReportProgress(0);
         }
@@ -82,57 +90,31 @@ namespace Halo_3_Camera_Tool
 
         private void ProcessNotFound()
         {
-            MessageBox.Show("Unable to find game process", "Error");
+            if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Unable to find game process", "Error");
         }
 
-        private void ThirdPerson_Button_Click(object sender, RoutedEventArgs e)
+        public void Freecam()
         {
             if (ProcOpen)
             {
-                if (!Freecam)
-                {
-                    int result = m.ReadByte("halo3.dll+0x13EE4E");
-                    if (result == 0x74)
-                    {
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90");
-                        ThirdPerson = true;
-                    }
-                    else if (result == 0x90)
-                    {
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
-                        ThirdPerson = false;
-                    }
-                }
-                else MessageBox.Show("Third Person cannot be used while freecam is active.");
-            }
-            else ProcessNotFound();
-        }
-
-        private void Freecam_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (ProcOpen)
-            {
-                if (!ThirdPerson)
+                if (!bThirdPerson)
                 {
                     int result = m.ReadByte("halo3.dll+0x13E176");
                     if (result == 0x0F)
                     {
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90"); //Third Person
                         m.WriteMemory("halo3.dll+0x13E176", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90"); //Force Third Person to use Freecam instead
-                        //result = m.ReadByte("halo3.dll+0x1cb15c8,0x10540");
-                        m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x02");// + (result + 2).ToString("X")); //Enable Blind
+                        m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x02");
                         FreecamButton.Foreground = Brushes.Red;
-                        Freecam = true;
+                        bFreecam = true;
                     }
                     else if (result == 0xE9)
                     {
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
                         m.WriteMemory("halo3.dll+0x13E176", "bytes", "0x0F 0x84 0xA4 0x03 0x00 0x00");
-                        //result = m.ReadByte("halo3.dll+0x1cb15c8,0x10540");
-                        //if (result >= 2)
-                            m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x00");// + (result - 2).ToString("X"));
+                        m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x00");
                         FreecamButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                        Freecam = false;
+                        bFreecam = false;
                     }
                 }
                 else MessageBox.Show("Freecam cannot be used while Third Person is active.", "Error");
@@ -140,11 +122,30 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
-        private void FreezeCamera_Button_Click(object sender, RoutedEventArgs e)
+        public void FreezePlayer()
         {
             if (ProcOpen)
             {
-                if (Freecam)
+                int result = m.ReadByte("halo3.dll+0x1094DE");
+                if (result == 0x0F || result == 0x90)
+                {
+                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0xE9 0xC7 0x01 0x00 0x00 0x90");
+                    FreezePlayerButton.Foreground = Brushes.Red;
+                }
+                else if (result == 0xE9)
+                {
+                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
+                    FreezePlayerButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
+                }
+            }
+            else ProcessNotFound();
+        }
+
+        public void FreezeCamera()
+        {
+            if (ProcOpen)
+            {
+                if (bFreecam)
                 {
                     int result = m.ReadByte("halo3.dll+0x13E177");
                     if (result == 0x84 || result == 0x3D)
@@ -159,12 +160,12 @@ namespace Halo_3_Camera_Tool
                         FreezeCameraButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                     }
                 }
-                else MessageBox.Show("Freezing the camera requires Freecam to be active.", "Error");
+                else if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Freezing the camera requires Freecam to be active.", "Error");
             }
             else ProcessNotFound();
         }
 
-        private void DisableBarriers_Button_Click(object sender, RoutedEventArgs e)
+        public void DisableBarriers()
         {
             if (ProcOpen)
             {
@@ -199,31 +200,12 @@ namespace Halo_3_Camera_Tool
                         }
                     }
                 }
-                
+
             }
             else ProcessNotFound();
         }
 
-        private void FreezePlayer_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (ProcOpen)
-            {
-                int result = m.ReadByte("halo3.dll+0x1094DE");
-                if (result == 0x0F || result == 0x90)
-                {
-                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0xE9 0xC7 0x01 0x00 0x00 0x90");
-                    FreezePlayerButton.Foreground = Brushes.Red;
-                }
-                else if (result == 0xE9)
-                {
-                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
-                    FreezePlayerButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                }
-            }
-            else ProcessNotFound();
-        }
-
-        private void PauseGame_Button_Click(object sender, RoutedEventArgs e)
+        public void PauseGame()
         {
             if (ProcOpen)
             {
@@ -242,7 +224,7 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
-        private void Coordinates_Button_Click(object sender, RoutedEventArgs e)
+        public void Coordinates()
         {
             if (ProcOpen)
             {
@@ -271,7 +253,7 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
-        private void Acrophobia_Button_Click(object sender, RoutedEventArgs e)
+        public void Acrophobia()
         {
             if (ProcOpen)
             {
@@ -290,7 +272,7 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
-        private void Bandana_Button_Click(object sender, RoutedEventArgs e)
+        public void Bandana()
         {
             if (ProcOpen)
             {
@@ -309,7 +291,32 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
-        private void ThirtyTick_Button_Click(object sender, RoutedEventArgs e)
+        public void ThirdPerson()
+        {
+            if (ProcOpen)
+            {
+                if (!bFreecam)
+                {
+                    int result = m.ReadByte("halo3.dll+0x13EE4E");
+                    if (result == 0x74)
+                    {
+                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90");
+                        ThirdPersonButton.Foreground = Brushes.Red;
+                        bThirdPerson = true;
+                    }
+                    else if (result == 0x90)
+                    {
+                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
+                        ThirdPersonButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
+                        bThirdPerson = false;
+                    }
+                }
+                else MessageBox.Show("Third Person cannot be used while freecam is active.");
+            }
+            else ProcessNotFound();
+        }
+
+        public void ThirtyTick()
         {
             if (ProcOpen)
             {
@@ -328,9 +335,59 @@ namespace Halo_3_Camera_Tool
             else ProcessNotFound();
         }
 
+        private void ThirdPerson_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ThirdPerson();
+        }
+
+        private void Freecam_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Freecam();
+        }
+
+        private void FreezeCamera_Button_Click(object sender, RoutedEventArgs e)
+        {
+            FreezeCamera();
+        }
+
+        private void DisableBarriers_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DisableBarriers();
+        }
+
+        private void FreezePlayer_Button_Click(object sender, RoutedEventArgs e)
+        {
+            FreezePlayer();
+        }
+
+        private void PauseGame_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PauseGame();
+        }
+
+        private void Coordinates_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Coordinates();
+        }
+
+        private void Acrophobia_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Acrophobia();
+        }
+
+        private void Bandana_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Bandana();
+        }
+
+        private void ThirtyTick_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ThirtyTick();
+        }
+
         private void NotYetImplemented(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not yet implemented", "Error");
+            if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Not yet implemented", "Error");
         }
 
         private void XCoordTextBlock_TextChanged(object sender, TextChangedEventArgs e)
@@ -409,6 +466,154 @@ namespace Halo_3_Camera_Tool
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void FreecamBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.FreecamKey = FreecamBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void FreezePlayerBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.FreezePlayerKey = FreezePlayerBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void FreezeCameraBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.FreezeCameraKey = FreezeCameraBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void PauseGameBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.PauseGameKey = PauseGameBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void CoordinatesBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.CoordinatesKey = CoordinatesBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DisableBarriersBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.DisableBarriersKey = DisableBarriersBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void AcrophobiaBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.AcrophobiaKey = AcrophobiaBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+
+        private void BandanaBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.BandanaKey = BandanaBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ThirdPersonBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.ThirdPersonKey = ThirdPersonBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ThirtyTickBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.ThirtyTickKey = ThirtyTickBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+    }
+
+    internal class Controller : IDisposable
+    {
+        private GlobalKeyboardHook _globalKeyboardHook;
+
+        public void SetupKeyboardHooks(out object hookProc)
+        {
+            _globalKeyboardHook = new GlobalKeyboardHook();
+            _globalKeyboardHook.KeyboardPressed += OnKeyPressed;
+
+            hookProc = _globalKeyboardHook.GcSafeHookProc;
+        }
+
+        private void OnKeyPressed(object sender, GlobalKeyboardHookEventArgs e)
+        {
+            if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+            {
+                if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.FreecamKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).Freecam();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.FreezePlayerKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).FreezePlayer();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.FreezeCameraKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).FreezeCamera();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.PauseGameKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).PauseGame();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.CoordinatesKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).Coordinates();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.DisableBarriersKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).DisableBarriers();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.AcrophobiaKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).Acrophobia();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.BandanaKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).Bandana();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.ThirdPersonKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).ThirdPerson();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.ThirtyTickKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).ThirtyTick();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        public int GetKeyFromText(string text)
+        {
+            foreach (GlobalKeyboardHook.Keys key in Enum.GetValues(typeof(GlobalKeyboardHook.Keys)))
+            {
+                if (Enum.GetName(typeof(GlobalKeyboardHook.Keys), key) == text)
+                {
+                    return (int)key;
+                }
+            }
+            return -1;
+        }
+
+        public void Dispose()
+        {
+            _globalKeyboardHook?.Dispose();
         }
     }
 }

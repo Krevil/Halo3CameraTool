@@ -8,21 +8,138 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-namespace Halo_3_Camera_Tool.Properties
-{
+namespace Halo_3_Camera_Tool.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ThirdPersonKey {
+            get {
+                return ((string)(this["ThirdPersonKey"]));
+            }
+            set {
+                this["ThirdPersonKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F1")]
+        public string FreecamKey {
+            get {
+                return ((string)(this["FreecamKey"]));
+            }
+            set {
+                this["FreecamKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F2")]
+        public string FreezePlayerKey {
+            get {
+                return ((string)(this["FreezePlayerKey"]));
+            }
+            set {
+                this["FreezePlayerKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F3")]
+        public string FreezeCameraKey {
+            get {
+                return ((string)(this["FreezeCameraKey"]));
+            }
+            set {
+                this["FreezeCameraKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F4")]
+        public string PauseGameKey {
+            get {
+                return ((string)(this["PauseGameKey"]));
+            }
+            set {
+                this["PauseGameKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CoordinatesKey {
+            get {
+                return ((string)(this["CoordinatesKey"]));
+            }
+            set {
+                this["CoordinatesKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DisableBarriersKey {
+            get {
+                return ((string)(this["DisableBarriersKey"]));
+            }
+            set {
+                this["DisableBarriersKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AcrophobiaKey {
+            get {
+                return ((string)(this["AcrophobiaKey"]));
+            }
+            set {
+                this["AcrophobiaKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BandanaKey {
+            get {
+                return ((string)(this["BandanaKey"]));
+            }
+            set {
+                this["BandanaKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ThirtyTickKey {
+            get {
+                return ((string)(this["ThirtyTickKey"]));
+            }
+            set {
+                this["ThirtyTickKey"] = value;
             }
         }
     }

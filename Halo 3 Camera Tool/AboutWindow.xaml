@@ -46,7 +46,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="3,115,0,0" TextWrapping="Wrap" Foreground="#FFE8E8E8" Text="Exhibit" VerticalAlignment="Top" FontSize="10" Height="15"/>
         <Button HorizontalAlignment="Left" Margin="183,2,0,0" VerticalAlignment="Top" Width="15" Height="15" BorderBrush="Black" Click="ExitButton_Click" Foreground="#FFE8E8E8" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Exit" >
             <Button.Background>
-                <ImageBrush ImageSource="exit.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images\exit.jpg" Stretch="UniformToFill"/>
             </Button.Background>
         </Button>
 

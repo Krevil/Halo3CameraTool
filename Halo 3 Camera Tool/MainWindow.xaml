@@ -77,10 +77,10 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="Images/halo3camtool.jpg"/>
+    </Window.Background>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="halo3camtool.jpg"/>
-        </Grid.Background>
         <Border BorderThickness="1" Width="301" Height="52" Margin="10,28,325,345" BorderBrush="#FF444444">
             <Grid HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Top" Width="300" Background="#BF646464">
                 <Grid.RowDefinitions>
@@ -102,8 +102,8 @@
         </Border>
         <Rectangle Fill="#BF646464" HorizontalAlignment="Left" Height="20" Stroke="#FF444444" VerticalAlignment="Top" Width="636" Margin="0,405,0,0"/>
         <TextBlock x:Name="StatusTextBlock" HorizontalAlignment="Left" Text="Status: Disconnected" VerticalAlignment="Top" Foreground="#FFE8E8E8" Width="110" Height="16" Margin="3,406,0,0"/>
-        <Border BorderThickness="1" Width="201" Height="127" Margin="10,85,425,213" BorderBrush="#FF444444">
-            <Grid HorizontalAlignment="Left" Height="125" Margin="0,0,0,0" VerticalAlignment="Top" Width="200" Background="#BF646464">
+        <Border BorderThickness="1" Height="127" Margin="10,85,374,213" BorderBrush="#FF444444">
+            <Grid HorizontalAlignment="Left" Height="125" Margin="0,0,-1,0" VerticalAlignment="Top" Width="250" Background="#BF646464">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" MaxHeight="25"/>
                     <RowDefinition Height="50" MaxHeight="25" />
@@ -122,45 +122,55 @@
                     -->
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0" MinWidth="100"/>
                     <ColumnDefinition Width="100" MinWidth="100"/>
+                    <ColumnDefinition Width="25" MinWidth="25"/>
+                    <ColumnDefinition Width="100" MinWidth="100"/>
+                    <ColumnDefinition Width="25" MinWidth="25"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Grid.Column="0" x:Name="FreecamButton" Content="Freecam" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="Freecam_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
-                <Button Grid.Row="0" Grid.Column="1" x:Name="FreezePlayerButton" Content="Freeze Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="FreezePlayer_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
-                <Button Grid.Row="1" Grid.Column="1" x:Name="PauseGameButton" Content="Pause Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="PauseGame_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
+                <Button Grid.Row="0" Grid.Column="2" x:Name="FreezePlayerButton" Content="Freeze Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="FreezePlayer_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
+                <Button Grid.Row="1" Grid.Column="2" x:Name="PauseGameButton" Content="Pause Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="PauseGame_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
                 <Button Grid.Row="1" Grid.Column="0" x:Name="FreezeCameraButton" Content="Freeze Camera" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="FreezeCamera_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
                 <Button Grid.Row="2" Grid.Column="0" x:Name="CoordinatesButton" Content="Coordinates" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="Coordinates_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
-                <Button Grid.Row="2" Grid.Column="1" x:Name="DisableBarriersButton" Content="Disable Barriers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="DisableBarriers_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
+                <Button Grid.Row="2" Grid.Column="2" x:Name="DisableBarriersButton" Content="Disable Barriers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="DisableBarriers_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
                 <Button Grid.Row="3" Grid.Column="0" x:Name="AcrophobiaButton" Content="Acrophobia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="Acrophobia_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" />
-                <Button Grid.Row="3" Grid.Column="1" x:Name="BandanaButton" Content="Bandana" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="Bandana_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
+                <Button Grid.Row="3" Grid.Column="2" x:Name="BandanaButton" Content="Bandana" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="Bandana_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
                 <Button Grid.Row="4" Grid.Column="0" x:Name="ThirdPersonButton" Content="Third Person" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="ThirdPerson_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
-                <Button Grid.Row="4" Grid.Column="1" x:Name="ThirtyTickButton" Content="30 Tick" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="ThirtyTick_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
-                <!-- <Button Grid.Row="5" Grid.Column="0" Content="Invincibility" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="NotYetImplemented" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" /> -->
-                <!-- <Button Grid.Row="5" Grid.Column="1" Content="Active Camo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="NotYetImplemented" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" /> -->
+                <Button Grid.Row="4" Grid.Column="2" x:Name="ThirtyTickButton" Content="30 Tick" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Height="20" Click="ThirtyTick_Button_Click" Background="#FF323232" Foreground="#FFE8E8E8" BorderBrush="Black" Margin="2,3,0,0" Template="{DynamicResource ButtonControlTemplate1}" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="FreecamBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="FreecamBinding_TextChanged" />
+                <TextBox Grid.Row="0" Grid.Column="3" x:Name="FreezePlayerBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="FreezePlayerBinding_TextChanged" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="FreezeCameraBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="FreezeCameraBinding_TextChanged" />
+                <TextBox Grid.Row="1" Grid.Column="3" x:Name="PauseGameBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="PauseGameBinding_TextChanged" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="CoordinatesBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="CoordinatesBinding_TextChanged" />
+                <TextBox Grid.Row="2" Grid.Column="3" x:Name="DisableBarriersBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="DisableBarriersBinding_TextChanged" />
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="AcrophobiaBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="AcrophobiaBinding_TextChanged" />
+                <TextBox Grid.Row="3" Grid.Column="3" x:Name="BandanaBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="BandanaBinding_TextChanged" />
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="ThirdPersonBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="ThirdPersonBinding_TextChanged" />
+                <TextBox Grid.Row="4" Grid.Column="3" x:Name="ThirtyTickBinding" Text="" Margin="0,3,1,2" BorderBrush="Black" Foreground="#FFE8E8E8" Height="20" Width="20" Background="#FF323232" TextChanged="ThirtyTickBinding_TextChanged" />
             </Grid>
         </Border>
         <Rectangle Fill="#BF646464" HorizontalAlignment="Left" Height="20" Stroke="#FF444444" VerticalAlignment="Top" Width="636" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"/>
         <Button HorizontalAlignment="Left" Margin="619,2,0,0" VerticalAlignment="Top" Width="15" Height="15" BorderBrush="Black" Click="ExitButton_Click" Foreground="#FFE8E8E8" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Exit" >
             <Button.Background>
-                <ImageBrush ImageSource="exit.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images\exit.jpg" Stretch="UniformToFill"/>
             </Button.Background>
         </Button>
         <Button HorizontalAlignment="Left" Margin="602,2,0,0" VerticalAlignment="Top" Width="15" Height="15" Foreground="#FFE8E8E8" BorderBrush="Black" Click="TopmostButton_Click" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Top Most Window" >
             <Button.Background>
-                <ImageBrush ImageSource="topmost.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images\topmost.jpg" Stretch="UniformToFill"/>
             </Button.Background>
         </Button>
         <Button HorizontalAlignment="Left" Margin="585,2,0,0" VerticalAlignment="Top" Width="15" Height="15" Foreground="#FFE8E8E8" BorderBrush="Black" Click="MinimiseButton_Click" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Minimise" >
             <Button.Background>
-                <ImageBrush ImageSource="minimise.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images\minimise.jpg" Stretch="UniformToFill"/>
             </Button.Background>
         </Button>
-        <Image HorizontalAlignment="Left" Height="15" Margin="4,2,0,0" VerticalAlignment="Top" Width="15" Source="MCCBitmapIO_v3.ico"/>
+        <Image HorizontalAlignment="Left" Height="15" Margin="4,2,0,0" VerticalAlignment="Top" Width="15" Source="Images\MCCBitmapIO_v3.ico"/>
         <TextBlock HorizontalAlignment="Left" Text="Halo 3 Camera Tool" VerticalAlignment="Top" Foreground="#FFE8E8E8" Width="110" Height="16" Margin="25,2,0,0" FontFamily="Tahoma"/>
         <TextBlock HorizontalAlignment="Left" Text="Version 1.2406.0.0" VerticalAlignment="Top" Foreground="#7FE8E8E8" Width="110" Height="16" Margin="507,410.5,0,-2" FontFamily="Courier New" FontSize="10"/>
         <Button HorizontalAlignment="Left" Margin="619,407.5,0,0" VerticalAlignment="Top" Width="15" Height="15" BorderBrush="Black" Click="AboutButton_Click" Foreground="#FFE8E8E8" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Exit" >
             <Button.Background>
-                <ImageBrush ImageSource="about.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="Images\about.jpg" Stretch="UniformToFill"/>
             </Button.Background>
         </Button>
     </Grid>
