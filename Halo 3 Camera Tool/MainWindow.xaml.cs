@@ -55,14 +55,17 @@ namespace Halo_3_Camera_Tool
 
         private void BGWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            ProcOpen = m.OpenProcess("MCC-Win64-Shipping.exe");
+            if (!ProcOpen) ProcOpen = m.OpenProcess("MCCWinStore-Win64-Shipping.exe");
             if (!ProcOpen)
             {
-                ProcOpen = m.OpenProcess("MCC-Win64-Shipping.exe");
-                if (!ProcOpen) ProcOpen = m.OpenProcess("MCCWinStore-Win64-Shipping.exe");
                 Thread.Sleep(1000);
                 return;
             }
-            if (!m.modules.ContainsKey("halo3.dll")) m.GetModules();
+            if (!m.modules.ContainsKey("halo3.dll"))
+            {
+                m.CloseProcess();
+            }
             Thread.Sleep(1000);
             BGWorker.ReportProgress(0);
         }
@@ -102,18 +105,21 @@ namespace Halo_3_Camera_Tool
                     int result = m.ReadByte("halo3.dll+0x13E176");
                     if (result == 0x0F)
                     {
+                        m.WriteMemory("halo3.dll+0x205934", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90"); //Disable Camera Control
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90"); //Third Person
                         m.WriteMemory("halo3.dll+0x13E176", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90"); //Force Third Person to use Freecam instead
-                        m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x02");
+                        m.WriteMemory("halo3.dll+0x2DE658", "bytes", "0x41 0x8B 0xC9 0x90"); //Hide HUD as if using Blind skull
                         FreecamButton.Foreground = Brushes.Red;
                         bFreecam = true;
                     }
                     else if (result == 0xE9)
                     {
+                        m.WriteMemory("halo3.dll+0x205934", "bytes", "0x0F 0x85 0x14 0x02 0x00 0x00");
                         m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
                         m.WriteMemory("halo3.dll+0x13E176", "bytes", "0x0F 0x84 0xA4 0x03 0x00 0x00");
-                        m.WriteMemory("halo3.dll+0x1cb15c8,0x10540", "byte", "0x00");
+                        m.WriteMemory("halo3.dll+0x2DE658", "bytes", "0x41 0x0F 0x45 0xC9");
                         FreecamButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
+                        FreezeCameraButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                         bFreecam = false;
                     }
                 }
