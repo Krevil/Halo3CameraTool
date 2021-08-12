@@ -243,6 +243,8 @@ namespace Halo_3_Camera_Tool
                     if (result == 0x0F)
                     {
                         m.WriteMemory("halo3.dll+0x13d6fc", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x1601FE", "bytes", "0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x160206", "bytes", "0x90 0x90");
                     }
                 }
                 else if (result == 0x90)
@@ -253,6 +255,8 @@ namespace Halo_3_Camera_Tool
                     if (result == 0x90)
                     {
                         m.WriteMemory("halo3.dll+0x13d6fc", "bytes", "0x0F 0x84 0x97 0x01 0x00 0x00");
+                        m.WriteMemory("halo3.dll+0x1601FE", "bytes", "0x74 0x0A");
+                        m.WriteMemory("halo3.dll+0x160206", "bytes", "0x74 0x02");
                     }
                 }
             }
