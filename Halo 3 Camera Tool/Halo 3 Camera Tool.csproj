@@ -54,8 +54,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Images\MCCBitmapIO_v3.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>F78526754315B053F62D812B3183B54425D970BB</ManifestCertificateThumbprint>
