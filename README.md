@@ -22,3 +22,7 @@ Third Person toggle
 
 30 Tick Gameplay toggle
 
+Lower Weapon toggle
+
+Disable Team Colours
+
