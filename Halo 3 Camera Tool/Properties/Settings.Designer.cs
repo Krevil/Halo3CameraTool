@@ -142,5 +142,29 @@ namespace Halo_3_Camera_Tool.Properties {
                 this["ThirtyTickKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Down")]
+        public string LowerWeaponKey {
+            get {
+                return ((string)(this["LowerWeaponKey"]));
+            }
+            set {
+                this["LowerWeaponKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DisableTeamColoursKey {
+            get {
+                return ((string)(this["DisableTeamColoursKey"]));
+            }
+            set {
+                this["DisableTeamColoursKey"] = value;
+            }
+        }
     }
 }

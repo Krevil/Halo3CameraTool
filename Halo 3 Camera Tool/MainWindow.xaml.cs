@@ -48,6 +48,8 @@ namespace Halo_3_Camera_Tool
             BandanaBinding.Text = Properties.Settings.Default.BandanaKey;
             ThirdPersonBinding.Text = Properties.Settings.Default.ThirdPersonKey;
             ThirtyTickBinding.Text = Properties.Settings.Default.ThirtyTickKey;
+            LowerWeaponBinding.Text = Properties.Settings.Default.LowerWeaponKey;
+            DisableTeamColoursBinding.Text = Properties.Settings.Default.DisableTeamColoursKey;
 
             Controller controller = new Controller();
             controller.SetupKeyboardHooks(out hookProc);
@@ -93,7 +95,7 @@ namespace Halo_3_Camera_Tool
 
         private void ProcessNotFound()
         {
-            if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Unable to find game process", "Error");
+            if (Application.Current.MainWindow.IsMouseOver) MessageBox.Show("Unable to find game process", "Error");
         }
 
         public void Freecam()
@@ -166,7 +168,7 @@ namespace Halo_3_Camera_Tool
                         FreezeCameraButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                     }
                 }
-                else if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Freezing the camera requires Freecam to be active.", "Error");
+                else if (Application.Current.MainWindow.IsMouseOver) MessageBox.Show("Freezing the camera requires Freecam to be active.", "Error");
             }
             else ProcessNotFound();
         }
@@ -267,17 +269,9 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10539");
-                if (result >= 32)
-                {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10539", "byte", "0x" + (result - 32).ToString("X"));
-                    AcrophobiaButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                }
-                else if (result < 32)
-                {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10539", "byte", "0x" + (result + 32).ToString("X"));
-                    AcrophobiaButton.Foreground = Brushes.Red;
-                }
+                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10539") ^ 0x20;
+                m.WriteMemory("halo3.dll+0x1cb15c8,0x10539", "byte", "0x" + result.ToString("X"));
+                AcrophobiaButton.Foreground = (result & 0x20) == 0x20 ? Brushes.Red : new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
             }
             else ProcessNotFound();
         }
@@ -286,17 +280,9 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10536");
-                if (result >= 128)
-                {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10536", "byte", "0x" + (result - 128).ToString("X"));
-                    BandanaButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                }
-                else if (result < 128)
-                {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10536", "byte", "0x" + (result + 128).ToString("X"));
-                    BandanaButton.Foreground = Brushes.Red;
-                }
+                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10536") ^ 0x80;
+                m.WriteMemory("halo3.dll+0x1cb15c8,0x10536", "byte", "0x" + result.ToString("X"));
+                BandanaButton.Foreground = (result & 0x80) == 0x80 ? Brushes.Red : new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
             }
             else ProcessNotFound();
         }
@@ -340,6 +326,44 @@ namespace Halo_3_Camera_Tool
                 {
                     m.WriteMemory("halo3.dll+0x1cb15c8,0x10b58", "bytes", "0x1E 0x00 0x00 0x00 0x89 0x88 0x08 0x3D");
                     ThirtyTickButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
+                }
+            }
+            else ProcessNotFound();
+        }
+
+        public void LowerWeapon()
+        {
+            if (ProcOpen)
+            {
+                int result = m.ReadByte("halo3.dll+0x1CB15C8,0x15448");
+                if (result == 0)
+                {
+                    m.WriteMemory("halo3.dll+0x1CB15C8,0x15448", "byte", "1");
+                    LowerWeaponButton.Foreground = Brushes.Red;
+                }
+                else if (result == 1)
+                {
+                    m.WriteMemory("halo3.dll+0x1CB15C8,0x15448", "byte", "0");
+                    LowerWeaponButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
+                }
+            }
+            else ProcessNotFound();
+        }
+
+        public void DisableTeamColours()
+        {
+            if (ProcOpen)
+            {
+                int result = m.ReadByte("halo3.dll+0x25068");
+                if (result == 0x74)
+                {
+                    m.WriteMemory("halo3.dll+0x25068", "byte", "0xEB");
+                    DisableTeamColoursButton.Foreground = Brushes.Red;
+                }
+                else if (result == 0xEB)
+                {
+                    m.WriteMemory("halo3.dll+0x25068", "byte", "0x74");
+                    DisableTeamColoursButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
             else ProcessNotFound();
@@ -395,9 +419,19 @@ namespace Halo_3_Camera_Tool
             ThirtyTick();
         }
 
+        private void LowerWeapon_Button_Click(object sender, RoutedEventArgs e)
+        {
+            LowerWeapon();
+        }
+
+        private void DisableTeamColours_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DisableTeamColours();
+        }
+
         private void NotYetImplemented(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow.WindowState == WindowState.Normal) MessageBox.Show("Not yet implemented", "Error");
+            if (Application.Current.MainWindow.IsMouseOver) MessageBox.Show("Not yet implemented", "Error");
         }
 
         private void XCoordTextBlock_TextChanged(object sender, TextChangedEventArgs e)
@@ -538,6 +572,18 @@ namespace Halo_3_Camera_Tool
             Properties.Settings.Default.ThirtyTickKey = ThirtyTickBinding.Text;
             Properties.Settings.Default.Save();
         }
+
+        private void LowerWeaponBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.LowerWeaponKey = LowerWeaponBinding.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DisableTeamColoursBinding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.DisableTeamColoursKey = DisableTeamColoursBinding.Text;
+            Properties.Settings.Default.Save();
+        }
     }
 
     internal class Controller : IDisposable
@@ -604,6 +650,16 @@ namespace Halo_3_Camera_Tool
                 else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.ThirtyTickKey))
                 {
                     ((MainWindow)Application.Current.MainWindow).ThirtyTick();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.LowerWeaponKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).LowerWeapon();
+                    e.Handled = true;
+                }
+                else if (e.KeyboardData.VirtualCode == GetKeyFromText(Properties.Settings.Default.DisableTeamColoursKey))
+                {
+                    ((MainWindow)Application.Current.MainWindow).DisableTeamColours();
                     e.Handled = true;
                 }
             }
