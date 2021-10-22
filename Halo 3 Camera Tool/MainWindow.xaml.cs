@@ -77,9 +77,9 @@ namespace Halo_3_Camera_Tool
             if (ProcOpen)
             {
                 StatusTextBlock.Text = "Status: Connected";
-                XCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1cb15c8,0x2bade8", "", false).ToString();
-                YCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1cb15c8,0x2badec", "", false).ToString();
-                ZCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1cb15c8,0x2badf0", "", false).ToString();
+                XCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1d91e68,0x2BB048", "", false).ToString();
+                YCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1d91e68,0x2BB04C", "", false).ToString();
+                ZCoordTextBlock.Text = m.ReadFloat("halo3.dll+0x1d91e68,0x2BB050", "", false).ToString();
             }
         }
 
@@ -104,22 +104,22 @@ namespace Halo_3_Camera_Tool
             {
                 if (!bThirdPerson)
                 {
-                    int result = m.ReadByte("halo3.dll+0x13E176");
+                    int result = m.ReadByte("halo3.dll+0x12A866");
                     if (result == 0x0F)
                     {
-                        m.WriteMemory("halo3.dll+0x205934", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90"); //Disable Camera Control
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90"); //Third Person
-                        m.WriteMemory("halo3.dll+0x13E176", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90"); //Force Third Person to use Freecam instead
-                        m.WriteMemory("halo3.dll+0x2DE658", "bytes", "0x41 0x8B 0xC9 0x90"); //Hide HUD as if using Blind skull
+                        m.WriteMemory("halo3.dll+0x1F138C", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90"); //Disable Camera Control
+                        m.WriteMemory("halo3.dll+0x12B53E", "bytes", "0x90 0x90"); //Third Person
+                        m.WriteMemory("halo3.dll+0x12A866", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90"); //Force Third Person to use Freecam instead
+                        m.WriteMemory("halo3.dll+0x2CAE40", "bytes", "0x41 0x8B 0xC9 0x90"); //Hide HUD as if using Blind skull
                         FreecamButton.Foreground = Brushes.Red;
                         bFreecam = true;
                     }
                     else if (result == 0xE9)
                     {
-                        m.WriteMemory("halo3.dll+0x205934", "bytes", "0x0F 0x85 0x14 0x02 0x00 0x00");
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
-                        m.WriteMemory("halo3.dll+0x13E176", "bytes", "0x0F 0x84 0xA4 0x03 0x00 0x00");
-                        m.WriteMemory("halo3.dll+0x2DE658", "bytes", "0x41 0x0F 0x45 0xC9");
+                        m.WriteMemory("halo3.dll+0x1F138C", "bytes", "0x0F 0x85 0x14 0x02 0x00 0x00");
+                        m.WriteMemory("halo3.dll+0x12B53E", "bytes", "0x74 0x0E");
+                        m.WriteMemory("halo3.dll+0x12A866", "bytes", "0x0F 0x84 0xA4 0x03 0x00 0x00");
+                        m.WriteMemory("halo3.dll+0x2CAE40", "bytes", "0x41 0x0F 0x45 0xC9");
                         FreecamButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                         FreezeCameraButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                         bFreecam = false;
@@ -134,15 +134,15 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1094DE");
+                int result = m.ReadByte("halo3.dll+0xF59CA");
                 if (result == 0x0F || result == 0x90)
                 {
-                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0xE9 0xC7 0x01 0x00 0x00 0x90");
+                    m.WriteMemory("halo3.dll+0xF59CA", "bytes", "0xE9 0xC7 0x01 0x00 0x00 0x90");
                     FreezePlayerButton.Foreground = Brushes.Red;
                 }
                 else if (result == 0xE9)
                 {
-                    m.WriteMemory("halo3.dll+0x1094DE", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
+                    m.WriteMemory("halo3.dll+0xF59CA", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
                     FreezePlayerButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
@@ -155,16 +155,16 @@ namespace Halo_3_Camera_Tool
             {
                 if (bFreecam)
                 {
-                    int result = m.ReadByte("halo3.dll+0x13E177");
+                    int result = m.ReadByte("halo3.dll+0x12A867");
                     if (result == 0x84 || result == 0x3D)
                     {
-                        m.WriteMemory("halo3.dll+0x13E176", "bytes", "0xE9 0xFD 0x01 0x00 0x00 0x90");
+                        m.WriteMemory("halo3.dll+0x12A866", "bytes", "0xE9 0xFD 0x01 0x00 0x00 0x90");
                         FreezeCameraButton.Foreground = Brushes.Red;
                     }
                     else if (result == 0xFD)
                     {
 
-                        m.WriteMemory("halo3.dll+0x13E176", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90");
+                        m.WriteMemory("halo3.dll+0x12A866", "bytes", "0xE9 0x3D 0x03 0x00 0x00 0x90");
                         FreezeCameraButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                     }
                 }
@@ -177,34 +177,34 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cc139"); //Soft ceilings
+                int result = m.ReadByte("halo3.dll+0x1B7ECD"); //Soft ceilings
                 if (result == 0x7E)
                 {
-                    m.WriteMemory("halo3.dll+0x1cc139", "bytes", "0xEB 0x72"); //Kill triggers
+                    m.WriteMemory("halo3.dll+0x1B7ECD", "bytes", "0xEB 0x72"); //Kill triggers
                     DisableBarriersButton.Foreground = Brushes.Red;
-                    result = m.ReadByte("halo3.dll+0x1C971D");
+                    result = m.ReadByte("halo3.dll+0x1B54B1");
                     if (result == 0x7E)
                     {
-                        m.WriteMemory("halo3.dll+0x1C971D", "bytes", "0xEB 0x65");
-                        result = m.ReadByte("halo3.dll+0x1C9796"); //Safe zones
+                        m.WriteMemory("halo3.dll+0x1B54B1", "bytes", "0xEB 0x65");
+                        result = m.ReadByte("halo3.dll+0x1B552A"); //Safe zones
                         if (result == 0x7E)
                         {
-                            m.WriteMemory("halo3.dll+0x1C9796", "bytes", "0xEB 0x6D");
+                            m.WriteMemory("halo3.dll+0x1B552A", "bytes", "0xEB 0x6D");
                         }
                     }
                 }
                 else if (result == 0xEB)
                 {
-                    m.WriteMemory("halo3.dll+0x1cc139", "bytes", "0x7E 0x72");
+                    m.WriteMemory("halo3.dll+0x1B7ECD", "bytes", "0x7E 0x72");
                     DisableBarriersButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                    result = m.ReadByte("halo3.dll+0x1C971D");
+                    result = m.ReadByte("halo3.dll+0x1B54B1");
                     if (result == 0xEB)
                     {
-                        m.WriteMemory("halo3.dll+0x1C971D", "bytes", "0x7E 0x65");
-                        result = m.ReadByte("halo3.dll+0x1C9796");
+                        m.WriteMemory("halo3.dll+0x1B54B1", "bytes", "0x7E 0x65");
+                        result = m.ReadByte("halo3.dll+0x1B552A");
                         if (result == 0xEB)
                         {
-                            m.WriteMemory("halo3.dll+0x1C9796", "bytes", "0x7E 0x6D");
+                            m.WriteMemory("halo3.dll+0x1B552A", "bytes", "0x7E 0x6D");
                         }
                     }
                 }
@@ -217,15 +217,15 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10b56");
+                int result = m.ReadByte("halo3.dll+0x1D91E68,0x10DB6");
                 if (result == 0x00)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10b56", "byte", "0x08");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x10DB6", "byte", "0x08");
                     PauseGameButton.Foreground = Brushes.Red;
                 }
                 else if (result == 0x08)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10b56", "byte", "0x00");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x10DB6", "byte", "0x00");
                     PauseGameButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
@@ -236,29 +236,29 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x13d6ef");
+                int result = m.ReadByte("halo3.dll+0x129DDF");
                 if (result == 0x0F)
                 {
-                    m.WriteMemory("halo3.dll+0x13d6ef", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
+                    m.WriteMemory("halo3.dll+0x129DDF", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
                     CoordinatesButton.Foreground = Brushes.Red;
-                    result = m.ReadByte("halo3.dll+0x13d6fc");
+                    result = m.ReadByte("halo3.dll+0x129DEC");
                     if (result == 0x0F)
                     {
-                        m.WriteMemory("halo3.dll+0x13d6fc", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
-                        m.WriteMemory("halo3.dll+0x1601FE", "bytes", "0x90 0x90");
-                        m.WriteMemory("halo3.dll+0x160206", "bytes", "0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x129DEC", "bytes", "0x90 0x90 0x90 0x90 0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x14CA62", "bytes", "0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x14CA6A", "bytes", "0x90 0x90");
                     }
                 }
                 else if (result == 0x90)
                 {
-                    m.WriteMemory("halo3.dll+0x13d6ef", "bytes", "0x0F 0x84 0xA4 0x01 0x00 0x00");
+                    m.WriteMemory("halo3.dll+0x129DDF", "bytes", "0x0F 0x84 0xA4 0x01 0x00 0x00");
                     CoordinatesButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
-                    result = m.ReadByte("halo3.dll+0x13d6fc");
+                    result = m.ReadByte("halo3.dll+0x129DEC");
                     if (result == 0x90)
                     {
-                        m.WriteMemory("halo3.dll+0x13d6fc", "bytes", "0x0F 0x84 0x97 0x01 0x00 0x00");
-                        m.WriteMemory("halo3.dll+0x1601FE", "bytes", "0x74 0x0A");
-                        m.WriteMemory("halo3.dll+0x160206", "bytes", "0x74 0x02");
+                        m.WriteMemory("halo3.dll+0x129DEC", "bytes", "0x0F 0x84 0x97 0x01 0x00 0x00");
+                        m.WriteMemory("halo3.dll+0x14CA62", "bytes", "0x74 0x0A");
+                        m.WriteMemory("halo3.dll+0x14CA6A", "bytes", "0x74 0x02");
                     }
                 }
             }
@@ -269,8 +269,8 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10539") ^ 0x20;
-                m.WriteMemory("halo3.dll+0x1cb15c8,0x10539", "byte", "0x" + result.ToString("X"));
+                int result = m.ReadByte("halo3.dll+0x1D91E68,0x10799") ^ 0x20;
+                m.WriteMemory("halo3.dll+0x1D91E68,0x10799", "byte", "0x" + result.ToString("X"));
                 AcrophobiaButton.Foreground = (result & 0x20) == 0x20 ? Brushes.Red : new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
             }
             else ProcessNotFound();
@@ -280,8 +280,8 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10536") ^ 0x80;
-                m.WriteMemory("halo3.dll+0x1cb15c8,0x10536", "byte", "0x" + result.ToString("X"));
+                int result = m.ReadByte("halo3.dll+0x1D91E68,0x10796") ^ 0x80;
+                m.WriteMemory("halo3.dll+0x1D91E68,0x10796", "byte", "0x" + result.ToString("X"));
                 BandanaButton.Foreground = (result & 0x80) == 0x80 ? Brushes.Red : new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
             }
             else ProcessNotFound();
@@ -293,16 +293,16 @@ namespace Halo_3_Camera_Tool
             {
                 if (!bFreecam)
                 {
-                    int result = m.ReadByte("halo3.dll+0x13EE4E");
+                    int result = m.ReadByte("halo3.dll+0x12B53E");
                     if (result == 0x74)
                     {
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x90 0x90");
+                        m.WriteMemory("halo3.dll+0x12B53E", "bytes", "0x90 0x90");
                         ThirdPersonButton.Foreground = Brushes.Red;
                         bThirdPerson = true;
                     }
                     else if (result == 0x90)
                     {
-                        m.WriteMemory("halo3.dll+0x13EE4E", "bytes", "0x74 0x0E");
+                        m.WriteMemory("halo3.dll+0x12B53E", "bytes", "0x74 0x0E");
                         ThirdPersonButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                         bThirdPerson = false;
                     }
@@ -316,15 +316,15 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1cb15c8,0x10b58");
+                int result = m.ReadByte("halo3.dll+0x1D91E68,0x10DB8");
                 if (result == 0x1E)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10b58", "bytes", "0x3C 0x00 0x00 0x00 0x89 0x88 0x88 0x3C");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x10DB8", "bytes", "0x3C 0x00 0x00 0x00 0x89 0x88 0x88 0x3C");
                     ThirtyTickButton.Foreground = Brushes.Red;
                 }
                 else if (result == 0x3C)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x10b58", "bytes", "0x1E 0x00 0x00 0x00 0x89 0x88 0x08 0x3D");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x10DB8", "bytes", "0x1E 0x00 0x00 0x00 0x89 0x88 0x08 0x3D");
                     ThirtyTickButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
@@ -335,15 +335,15 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x1CB15C8,0x15448");
+                int result = m.ReadByte("halo3.dll+0x1D91E68,0x156A8");
                 if (result == 0)
                 {
-                    m.WriteMemory("halo3.dll+0x1CB15C8,0x15448", "byte", "1");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x156A8", "byte", "1");
                     LowerWeaponButton.Foreground = Brushes.Red;
                 }
                 else if (result == 1)
                 {
-                    m.WriteMemory("halo3.dll+0x1CB15C8,0x15448", "byte", "0");
+                    m.WriteMemory("halo3.dll+0x1D91E68,0x156A8", "byte", "0");
                     LowerWeaponButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
@@ -354,15 +354,15 @@ namespace Halo_3_Camera_Tool
         {
             if (ProcOpen)
             {
-                int result = m.ReadByte("halo3.dll+0x25068");
+                int result = m.ReadByte("halo3.dll+0xDE48");
                 if (result == 0x74)
                 {
-                    m.WriteMemory("halo3.dll+0x25068", "byte", "0xEB");
+                    m.WriteMemory("halo3.dll+0xDE48", "byte", "0xEB");
                     DisableTeamColoursButton.Foreground = Brushes.Red;
                 }
                 else if (result == 0xEB)
                 {
-                    m.WriteMemory("halo3.dll+0x25068", "byte", "0x74");
+                    m.WriteMemory("halo3.dll+0xDE48", "byte", "0x74");
                     DisableTeamColoursButton.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0xE8, 0xE8));
                 }
             }
@@ -440,13 +440,13 @@ namespace Halo_3_Camera_Tool
             {
                 if (ProcOpen)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x2bade8", "float", XCoordTextBlock.Text);
+                    m.WriteMemory("halo3.dll+0x1d91e68,0x2BB048", "float", XCoordTextBlock.Text);
                 }
                 else XCoordTextBlock.Text = "0.0";
             }
             else
             {
-                XCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1cb15c8,0x2bade8", "", false).ToString() : "0.0";
+                XCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1d91e68,0x2BB048", "", false).ToString() : "0.0";
             }
         }
 
@@ -456,13 +456,13 @@ namespace Halo_3_Camera_Tool
             {
                 if (ProcOpen)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x2badec", "float", YCoordTextBlock.Text);
+                    m.WriteMemory("halo3.dll+0x1d91e68,0x2BB04C", "float", YCoordTextBlock.Text);
                 }
                 else YCoordTextBlock.Text = "0.0";
             }
             else
             {
-                YCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1cb15c8,0x2badec", "", false).ToString() : "0.0";
+                YCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1d91e68,0x2BB04C", "", false).ToString() : "0.0";
             }
         }
 
@@ -472,13 +472,13 @@ namespace Halo_3_Camera_Tool
             {
                 if (ProcOpen)
                 {
-                    m.WriteMemory("halo3.dll+0x1cb15c8,0x2badf0", "float", ZCoordTextBlock.Text);
+                    m.WriteMemory("halo3.dll+0x1d91e68,0x2BB050", "float", ZCoordTextBlock.Text);
                 }
                 else ZCoordTextBlock.Text = "0.0";
             }
             else
             {
-                ZCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1cb15c8,0x2badf0", "", false).ToString() : "0.0";
+                ZCoordTextBlock.Text = ProcOpen ? m.ReadFloat("halo3.dll+0x1d91e68,0x2BB050", "", false).ToString() : "0.0";
             }
         }
 

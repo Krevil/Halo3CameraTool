@@ -171,7 +171,7 @@
         </Button>
         <Image HorizontalAlignment="Left" Height="15" Margin="4,2,0,0" VerticalAlignment="Top" Width="15" Source="Images\MCCBitmapIO_v3.ico"/>
         <TextBlock HorizontalAlignment="Left" Text="Halo 3 Camera Tool" VerticalAlignment="Top" Foreground="#FFE8E8E8" Width="110" Height="16" Margin="25,2,0,0" FontFamily="Tahoma"/>
-        <TextBlock HorizontalAlignment="Left" Text="Version 1.2406.0.0" VerticalAlignment="Top" Foreground="#7FE8E8E8" Width="110" Height="16" Margin="507,410.5,0,-2" FontFamily="Courier New" FontSize="10"/>
+        <TextBlock HorizontalAlignment="Left" Text="Version 1.2580.0.0" VerticalAlignment="Top" Foreground="#7FE8E8E8" Width="110" Height="16" Margin="507,410.5,0,-2" FontFamily="Courier New" FontSize="10"/>
         <Button HorizontalAlignment="Left" Margin="619,407.5,0,0" VerticalAlignment="Top" Width="15" Height="15" BorderBrush="Black" Click="AboutButton_Click" Foreground="#FFE8E8E8" Template="{DynamicResource ButtonControlTemplate2}" ToolTip="Exit" >
             <Button.Background>
                 <ImageBrush ImageSource="Images\about.jpg" Stretch="UniformToFill"/>
